@@ -9,7 +9,7 @@ const Navbar = () => {
   const dispatch=useDispatch();
   const navigate=useNavigate()
   const user = useSelector((store) => store.user);
-  console.log(user);
+  
   const handleLogout=async()=>{
     try{
       const res=await axios.post(BASE_URL+'/logout',{},{withCredentials:true});
@@ -48,7 +48,7 @@ const Navbar = () => {
                 <div className="w-10 rounded-full">
                   <img
                     alt="User Avatar"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    src={user.photoUrl}
                   />
                 </div>
               )}

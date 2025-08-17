@@ -2,29 +2,47 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {addUser} from '../utils/userSlice'
+import { addUser } from "../utils/userSlice";
 import { BASE_URL } from "../utils/constants";
+
+// ✅ import toastify
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmailId] = useState("bkd18@gmail.com");
   const [password, setPassword] = useState("Bkd@1234");
-  const dispatch=useDispatch();
-  const navigate=useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault(); // prevent form refresh
     try {
-      const res = await axios.post(BASE_URL+"/login", {
-        email,
-        password,
-      },{
-        withCredentials:true
-      });
+      const res = await axios.post(
+        BASE_URL + "/login",
+        { email, password },
+        { withCredentials: true }
+      );
+
       dispatch(addUser(res.data));
-    
-      navigate('/feed');
-      // console.log(res.data); 
+
+      // ✅ success toast
+      toast.success("Login successful!", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      setTimeout(()=>{
+        navigate("/feed");
+      },2000)
+
+      
     } catch (err) {
+      const message = err?.response?.data?.message || "Invalid credentials";
+      // ✅ error toast
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 3000,
+      });
       console.error(err);
     }
   };
@@ -86,6 +104,9 @@ const Login = () => {
           </p>
         </div>
       </div>
+
+      {/* ✅ Toast Container */}
+      <ToastContainer />
     </div>
   );
 };

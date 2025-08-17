@@ -7,3 +7,7 @@
 - Create BrowserRouter routes components
 - create a outlet and footer
 ------------------------------------------------------------------------------
+
+- install cors 
+- add middle ware with configgrations 
+- front end pass withcredentilas true

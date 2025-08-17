@@ -1,25 +1,36 @@
 import React from "react";
 
-const UserCard = ({user}) => {
-    console.log(user)
-    const{firstName,lastName,age,gender,about,photoUrl}=user
+const UserCard = ({ user }) => {
+  const { firstName, lastName, age, gender, about, photoUrl } = user;
+
   return (
-    <div>
-      <div className="card bg-base-300 w-96 shadow-sm">
-        <figure>
+    <div className="flex justify-center">
+      <div className="card bg-base-300 w-[420px] h-[600px] shadow-xl rounded-xl overflow-hidden flex flex-col">
+        {/* Profile Image */}
+        <figure className="h-[360px]">
           <img
-            src={user.photoUrl}
-            alt="photo"
+            src={photoUrl}
+            alt={`${firstName} ${lastName}`}
+            className="w-full h-full object-cover"
           />
         </figure>
-        <div className="card-body">
-          <h2 className="card-title">{firstName+" "+lastName}</h2>
-          <p>
-                {age+" "+gender}
-          </p>
-          <div className="card-actions justify-center my-4">
-            <button className="btn btn-primary">Ignored</button>
-            <button className="btn btn-secondary">Interested</button>
+
+        {/* Card Body */}
+        <div className="card-body flex flex-col justify-between">
+          <div>
+            <h2 className="card-title text-xl font-bold">
+              {firstName} {lastName}
+            </h2>
+            <p className="text-sm text-gray-400">
+              {age} {gender}
+            </p>
+            <p className="mt-2 text-sm">{about}</p>
+          </div>
+
+          {/* Buttons */}
+          <div className="card-actions flex justify-between mt-6">
+            <button className="btn btn-secondary w-[48%]">Ignored</button>
+            <button className="btn btn-primary w-[48%]">Interested</button>
           </div>
         </div>
       </div>

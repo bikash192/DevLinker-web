@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
 
 const Footer = () => {
   return (
-    <div className='fixed bottom-0 left-0 w-full text-center py-2'>Footer</div>
-  )
-}
+    <footer className="bg-base-300 shadow-sm text-gray-300 py-4 flex justify-center">
+      <div className="text-center text-sm">
+        Created by <span className="font-semibold text-white">BKSH</span>
+      </div>
+    </footer>
+  );
+};
 
-export default Footer
+export default Footer;

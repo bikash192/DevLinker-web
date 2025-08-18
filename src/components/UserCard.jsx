@@ -6,14 +6,19 @@ const UserCard = ({ user }) => {
   return (
     <div className="flex justify-center p-4">
       <div className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 w-[360px] rounded-2xl shadow-2xl overflow-hidden transition-transform hover:scale-[1.02]">
-        
         {/* Profile Image */}
         <figure className="h-[280px] overflow-hidden">
-          <img
-            src={photoUrl}
-            alt={`${firstName} ${lastName}`}
-            className="w-full h-full object-cover transform hover:scale-105 transition duration-500"
-          />
+          {photoUrl ? (
+            <img
+              src={photoUrl}
+              alt={`${firstName} ${lastName}`}
+              className="w-full h-full object-cover transform hover:scale-105 transition duration-500"
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-700 flex items-center justify-center text-gray-400">
+              No Image
+            </div>
+          )}
         </figure>
 
         {/* Card Body */}
@@ -24,9 +29,7 @@ const UserCard = ({ user }) => {
           <p className="text-sm text-gray-400">
             {age} • {gender}
           </p>
-          <p className="mt-3 text-gray-300 text-sm line-clamp-3">
-            {about}
-          </p>
+          <p className="mt-3 text-gray-300 text-sm line-clamp-3">{about}</p>
 
           {/* Buttons */}
           <div className="flex gap-4 mt-6">

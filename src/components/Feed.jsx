@@ -4,7 +4,6 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../utils/feedSlice";
 import UserCard from "./UserCard";
-// import UserCard from './UserCard';
 
 const Feed = () => {
   const dispatch = useDispatch();
@@ -22,12 +21,16 @@ const Feed = () => {
       console.log(err);
     }
   };
+
   useEffect(() => {
     feedUser();
   }, []);
+
   return (
     feed && (
-      <div className="flex justify-center my-10">
+      <div className="min-h-screen flex justify-center items-center 
+                      bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950
+                      px-4">
         <UserCard user={feed[0]} />
       </div>
     )

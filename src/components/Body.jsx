@@ -10,7 +10,7 @@ import axios from "axios";
 const Body = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
-  const navigata = useNavigate();
+  const navigate = useNavigate();
   const fetchUser = async () => {
     if (user) return;
     try {
@@ -20,7 +20,8 @@ const Body = () => {
       dispatch(addUser(res.data));
     } catch (err) {
       if (err.status === 404) {
-        navigata("/login");
+        navigate('/')
+        // navigate("/login");
       }
 
       console.log(err);

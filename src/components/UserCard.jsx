@@ -4,33 +4,38 @@ const UserCard = ({ user }) => {
   const { firstName, lastName, age, gender, about, photoUrl } = user;
 
   return (
-    <div className="flex justify-center">
-      <div className="card bg-base-300 w-[420px] h-[600px] shadow-xl rounded-xl overflow-hidden flex flex-col">
+    <div className="flex justify-center p-4">
+      <div className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 w-[360px] rounded-2xl shadow-2xl overflow-hidden transition-transform hover:scale-[1.02]">
+        
         {/* Profile Image */}
-        <figure className="h-[360px]">
+        <figure className="h-[280px] overflow-hidden">
           <img
             src={photoUrl}
             alt={`${firstName} ${lastName}`}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transform hover:scale-105 transition duration-500"
           />
         </figure>
 
         {/* Card Body */}
-        <div className="card-body flex flex-col justify-between">
-          <div>
-            <h2 className="card-title text-xl font-bold">
-              {firstName} {lastName}
-            </h2>
-            <p className="text-sm text-gray-400">
-              {age} {gender}
-            </p>
-            <p className="mt-2 text-sm">{about}</p>
-          </div>
+        <div className="p-5 text-center">
+          <h2 className="text-2xl font-bold text-white">
+            {firstName} {lastName}
+          </h2>
+          <p className="text-sm text-gray-400">
+            {age} • {gender}
+          </p>
+          <p className="mt-3 text-gray-300 text-sm line-clamp-3">
+            {about}
+          </p>
 
           {/* Buttons */}
-          <div className="card-actions flex justify-between mt-6">
-            <button className="btn btn-secondary w-[48%]">Ignored</button>
-            <button className="btn btn-primary w-[48%]">Interested</button>
+          <div className="flex gap-4 mt-6">
+            <button className=" cursor-pointer w-1/2 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold shadow-md hover:opacity-90 transition">
+              Ignore
+            </button>
+            <button className=" cursor-pointer w-1/2 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold shadow-md hover:opacity-90 transition">
+              Interested
+            </button>
           </div>
         </div>
       </div>

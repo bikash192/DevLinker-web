@@ -6,34 +6,37 @@ import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 
 const Navbar = () => {
-  const dispatch=useDispatch();
-  const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((store) => store.user);
-  
-  const handleLogout=async()=>{
-    try{
-      const res=await axios.post(BASE_URL+'/logout',{},{withCredentials:true});
-      dispatch(removeUser());
-      navigate('/login');
 
-    
-    }catch(err){
+  const handleLogout = async () => {
+    try {
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+      dispatch(removeUser());
+      navigate("/");
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <div>
-      <div className="navbar bg-base-300 shadow-sm">
+      <div className="navbar bg-gray-900 shadow-lg px-6">
         {/* Left side: Logo */}
         <div className="flex-1 flex items-center">
-          <Link to='/' className="btn btn-ghost text-xl">DevLinker</Link>
+          <Link
+            to="/"
+            className="text-2xl font-extrabold tracking-wide bg-gradient-to-r from-indigo-400 via-purple-400 to-yellow-400 bg-clip-text text-transparent hover:scale-105 transition-transform"
+          >
+            Dev<span className="text-yellow-400">Linker</span>
+          </Link>
         </div>
 
         {/* Right side: Welcome + Avatar */}
         <div className="flex items-center gap-3 mx-3">
           {user && (
-            <span className="text-lg font-semibold">
+            <span className="text-lg font-semibold text-white">
               Welcome, {user.firstName}!
             </span>
           )}
@@ -45,11 +48,8 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               {user && (
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="User Avatar"
-                    src={user.photoUrl}
-                  />
+                <div className="w-10 rounded-full ring ring-yellow-400 ring-offset-2 ring-offset-gray-900">
+                  <img alt="User Avatar" src={user.photoUrl} />
                 </div>
               )}
             </div>
@@ -59,7 +59,7 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link to='/profile' className="justify-between">
+                <Link to="/profile" className="justify-between">
                   Profile
                   <span className="badge">New</span>
                 </Link>

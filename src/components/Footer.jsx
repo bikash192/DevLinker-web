@@ -2,11 +2,9 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-base-300 shadow-sm text-gray-300 py-4 flex justify-center">
-      <div className="text-center text-sm">
-        Created by <span className="font-semibold text-white">BKSH</span>
-      </div>
-    </footer>
+    <div className="fixed bottom-0 left-0 w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white text-center py-3 shadow-md">
+      © {new Date().getFullYear()} Created by <span className="font-bold">Developer BKSH</span>
+    </div>
   );
 };
 

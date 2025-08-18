@@ -12,8 +12,7 @@ const EditProfile = ({ user }) => {
   const [about, setAbout] = useState(user.about);
   const [gender, setGender] = useState(user.gender);
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-  const [toast, setToast] = useState(""); // 🔔 Toast message
-
+  const [toast, setToast] = useState("");
   const dispatch = useDispatch();
 
   const saveProfile = async () => {
@@ -34,9 +33,9 @@ const EditProfile = ({ user }) => {
       );
 
       dispatch(addUser(res?.data?.data));
-      setToast("✅ Profile saved successfully!"); // show success toast
+      setToast("✅ Profile saved successfully!"); 
 
-      // Auto-hide toast after 3s
+     
       setTimeout(() => setToast(""), 3000);
     } catch (err) {
       console.log(err);
@@ -52,7 +51,7 @@ const EditProfile = ({ user }) => {
 
   return (
     <div className="min-h-screen bg-base-100 flex items-center justify-center p-8 relative">
-      {/* 🔔 Toast Notification */}
+     
       {toast && (
         <div className="toast toast-top toast-end">
           <div className="alert alert-success shadow-lg">

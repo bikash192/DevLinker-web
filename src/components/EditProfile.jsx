@@ -13,7 +13,9 @@ const EditProfile = ({ user }) => {
   const [gender, setGender] = useState(user.gender||"");
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl||"");
   const [toast, setToast] = useState("");
+  const [error,setError]=useState("");
   const dispatch = useDispatch();
+
 
   const saveProfile = async () => {
     try {
@@ -34,13 +36,16 @@ const EditProfile = ({ user }) => {
 
       dispatch(addUser(res?.data?.data));
       setToast("✅ Profile saved successfully!"); 
+      setError("");
 
      
       setTimeout(() => setToast(""), 3000);
     } catch (err) {
       console.log(err);
-      setToast("❌ Failed to save profile");
+      setError(err.response.data);
+      setToast("❌ Failed to save profile ");
       setTimeout(() => setToast(""), 3000);
+    
     }
   };
 
@@ -161,6 +166,9 @@ const EditProfile = ({ user }) => {
                 className="textarea textarea-bordered w-full"
                 required
               ></textarea>
+            </div>
+            <div className='text-red-400'>
+              <p>{error}</p>
             </div>
 
             {/* Save Button */}

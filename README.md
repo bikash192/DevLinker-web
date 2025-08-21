@@ -20,4 +20,12 @@
 - you should not access the other routes wo=ithou login
 - If token is not present redirect to login page
 - make the feature of logout
-- setError message
+- logout feature
+- Get the feed and add the feed in the store
+- Build the usercard on feed
+- Edit profile feature
+- Show Toast Messsage on save of profile
+- New page-See all my connections
+- New page -Sell all my connections Request
+- Feature-Accept/Reject connection Request
+- send /ignore the user card from the feed

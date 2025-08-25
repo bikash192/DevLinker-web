@@ -80,6 +80,11 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
+                <Link to='/premium'>
+                Premium
+                </Link>
+              </li>
+              <li>
                 <a onClick={handleLogout}>Logout</a>
               </li>
             </ul>

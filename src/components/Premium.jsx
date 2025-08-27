@@ -4,6 +4,9 @@ import { BASE_URL } from "../utils/constants";
 
 const Premium = () => {
   const [isUserPremium,setUserPremium]=useState(false)
+  useEffect(()=>{
+    verifyPremiumUser()
+  },[])
   const verifyPremiumUser=async()=>{
     const res=await axios.get(BASE_URL+"/premium/verify",{withCredentials:true});
     if(res.data.isPremium){

@@ -17,7 +17,7 @@ useEffect(()=>{
 
   // As soon as the page load the socket connection is made and join chat event  emitted
   const socket=createSocketConnection();
-  socket.emit("joinChat",{userId,targetUserId});
+  socket.emit("joinChat",{firstName:user.firstName,userId,targetUserId});
 
 return()=>{
 

@@ -10,6 +10,7 @@ import Home from "./components/Home";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import Premium from "./components/Premium";
+import Chat from "./components/Chat";
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/connections" element={<Connections/>}/>
           <Route path="/request" element={<Requests/>}/>
           <Route path='/premium' element={<Premium/>}/>
+          <Route path="/chat/:targetUserId" element={<Chat/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

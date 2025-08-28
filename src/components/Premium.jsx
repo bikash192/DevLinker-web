@@ -47,7 +47,23 @@ const Premium = () => {
     }
   };
   return isUserPremium?(
-    "You are already a premuim User"
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-indigo-50 to-white px-6">
+    <div className="bg-white shadow-lg rounded-2xl p-10 max-w-md text-center border border-indigo-200">
+      <h1 className="text-3xl font-extrabold text-indigo-700 mb-4">
+        🎉 You are already a Premium User!
+      </h1>
+      <p className="text-gray-600 mb-6">
+        Thank you for supporting <span className="font-semibold">DevLinker</span>.  
+        Enjoy unlimited access to all premium features 🚀
+      </p>
+      <button
+        onClick={() => window.location.href = "/"} // you can change this
+        className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md font-medium transition"
+      >
+        Go to Dashboard
+      </button>
+    </div>
+  </div>
   ):(
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col items-center py-16 px-6">
       <h1 className="text-4xl font-extrabold text-gray-900 mb-12 text-center">

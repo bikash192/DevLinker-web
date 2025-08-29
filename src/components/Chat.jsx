@@ -2,79 +2,136 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { createSocketConnection } from "../utils/socket";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const Chat = () => {
   const { targetUserId } = useParams();
-  const [messages, setMessages] = useState([]); // should be array
+  const [messages, setMessages] = useState([]); 
   const [newMessage, setNewMessage] = useState("");
   const user = useSelector((store) => store.user);
 
-  const userId = user?._id; // loggedIn User
+  const userId = user?._id; // logged-in User
   const socketRef = useRef(null);
 
-  useEffect(() => {
-  if (!userId) return;
+  // ✅ FIX 1: Include senderId, photoUrl, createdAt in messages
+  const fetchChatMessages = async () => {
+    const chat = await axios.get(`${BASE_URL}/chat/${targetUserId}`, {
+      withCredentials: true,
+    });
 
-  const socket = createSocketConnection();
-  socketRef.current = socket;
+    const chatMessages = chat?.data?.messages.map((msg) => {
+      const { senderId, text, createdAt} = msg;
+      return {
+        firstName: senderId?.firstName,
+        lastName: senderId?.lastName,
+        senderId: senderId?._id, // keep sender reference
+        text,
+        createdAt,
+        photoUrl:
+          senderId?.photoUrl ||
+          "https://img.daisyui.com/images/profile/demo/anakeen@192.webp",
+      };
+    });
 
-  // join chat
-  socket.emit("joinChat", {
-    firstName: user.firstName,
-    userId,
-    targetUserId,
-    photoUrl:
-      user.photoUrl ||
-      "https://img.daisyui.com/images/profile/demo/anakeen@192.webp",
-  });
-
-  // listen for messages
-  socket.on(
-    "messageReceived",
-    ({ firstName, text, photoUrl, userId: senderId, createdAt }) => {
-      // 👇 Ignore my own messages (already added optimistically in sendMessage)
-      if (senderId === userId) return;
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          firstName,
-          text,
-          photoUrl:
-            photoUrl ||
-            "https://img.daisyui.com/images/profile/demo/kenobee@192.webp",
-          senderId,
-          createdAt: createdAt || new Date().toISOString(),
-        },
-      ]);
-    }
-  );
-
-  return () => {
-    socket.disconnect();
+    setMessages(chatMessages);
   };
-}, [userId, targetUserId, user?.firstName, user?.photoUrl]);
+
+  // ✅ FIX 2: Added targetUserId as dependency so when chat changes it re-fetches
+  useEffect(() => {
+    fetchChatMessages();
+  }, [targetUserId]);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const socket = createSocketConnection();
+    socketRef.current = socket;
+
+    // join chat
+    socket.emit("joinChat", {
+      firstName: user.firstName,
+      userId,
+      targetUserId,
+      photoUrl:
+        user.photoUrl ||
+        "https://img.daisyui.com/images/profile/demo/anakeen@192.webp",
+    });
+
+    // ✅ FIX 3: Added lastName in socket message too
+    socket.on(
+      "messageReceived",
+      ({ firstName, lastName, text, photoUrl, userId: senderId, createdAt }) => {
+        // Ignore my own messages (already added optimistically)
+        if (senderId === userId) return;
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            firstName,
+            lastName,
+            text,
+            photoUrl:
+              photoUrl ||
+              "https://img.daisyui.com/images/profile/demo/kenobee@192.webp",
+            senderId,
+            createdAt: createdAt || new Date().toISOString(),
+          },
+        ]);
+      }
+    );
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [userId, targetUserId, user?.firstName, user?.lastName, user?.photoUrl]);
 
   const sendMessage = () => {
-    if (!newMessage.trim()) return;
+    const cleanedMessage = newMessage.trim();
+
+  // Basic validation
+  if (!cleanedMessage) {
+    alert("Message cannot be empty!");
+    return;
+  }
+
+ 
+  if (cleanedMessage.length < 2) {
+    alert("Message is too short!");
+    return;
+  }
+
+ 
+  const validPattern = /[a-zA-Z0-9]/; 
+  if (!validPattern.test(cleanedMessage)) {
+    alert("Message must contain letters or numbers!");
+    return;
+  }
+
     if (socketRef.current) {
       socketRef.current.emit("sendMessage", {
         firstName: user.firstName,
+        lastName: user.lastName, // ✅ FIX 4: include lastName for consistency
         userId,
         targetUserId,
         text: newMessage,
-        photoUrl: user.photoUrl || "https://img.daisyui.com/images/profile/demo/anakeen@192.webp",
+        photoUrl:
+          user.photoUrl ||
+          "https://img.daisyui.com/images/profile/demo/anakeen@192.webp",
         createdAt: new Date().toISOString(),
       });
     }
 
-    // show instantly in UI
+    // Optimistic update: show instantly in UI
     setMessages((prev) => [
       ...prev,
       {
         firstName: user.firstName,
+        lastName: user.lastName,
         text: newMessage,
-        photoUrl: user.photoUrl || "https://img.daisyui.com/images/profile/demo/anakeen@192.webp",
+        photoUrl:
+          user.photoUrl ||
+          "https://img.daisyui.com/images/profile/demo/anakeen@192.webp",
         senderId: userId,
         createdAt: new Date().toISOString(),
       },
@@ -108,14 +165,16 @@ const Chat = () => {
                   </div>
                 </div>
                 <div className="chat-header text-gray-300">
-                  {msg.firstName}
+                  {msg.firstName} {msg.lastName}
                   <time className="text-xs opacity-50 ml-2">
                     {formatTime(msg.createdAt)}
                   </time>
                 </div>
                 <div
                   className={`chat-bubble ${
-                    isMine ? "bg-indigo-600 text-white" : "bg-gray-800 text-gray-100"
+                    isMine
+                      ? "bg-indigo-600 text-white"
+                      : "bg-gray-800 text-gray-100"
                   } shadow-md`}
                 >
                   {msg.text}

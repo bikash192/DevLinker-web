@@ -13,37 +13,47 @@ const Chat = () => {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    if (!userId) return;
+  if (!userId) return;
 
-    const socket = createSocketConnection();
-    socketRef.current = socket;
+  const socket = createSocketConnection();
+  socketRef.current = socket;
 
-    // join chat
-    socket.emit("joinChat", {
-      firstName: user.firstName,
-      userId,
-      targetUserId,
-      photoUrl: user.photoUrl || "https://img.daisyui.com/images/profile/demo/anakeen@192.webp"
-    });
+  // join chat
+  socket.emit("joinChat", {
+    firstName: user.firstName,
+    userId,
+    targetUserId,
+    photoUrl:
+      user.photoUrl ||
+      "https://img.daisyui.com/images/profile/demo/anakeen@192.webp",
+  });
 
-    // listen for messages
-    socket.on("messageReceived", ({ firstName, text, photoUrl, userId: senderId, createdAt }) => {
+  // listen for messages
+  socket.on(
+    "messageReceived",
+    ({ firstName, text, photoUrl, userId: senderId, createdAt }) => {
+      // 👇 Ignore my own messages (already added optimistically in sendMessage)
+      if (senderId === userId) return;
+
       setMessages((prev) => [
         ...prev,
         {
           firstName,
           text,
-          photoUrl: photoUrl || "https://img.daisyui.com/images/profile/demo/kenobee@192.webp",
+          photoUrl:
+            photoUrl ||
+            "https://img.daisyui.com/images/profile/demo/kenobee@192.webp",
           senderId,
-          createdAt: createdAt || new Date().toISOString()
+          createdAt: createdAt || new Date().toISOString(),
         },
       ]);
-    });
+    }
+  );
 
-    return () => {
-      socket.disconnect();
-    };
-  }, [userId, targetUserId, user?.firstName, user?.photoUrl]);
+  return () => {
+    socket.disconnect();
+  };
+}, [userId, targetUserId, user?.firstName, user?.photoUrl]);
 
   const sendMessage = () => {
     if (!newMessage.trim()) return;

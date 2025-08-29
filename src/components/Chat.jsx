@@ -92,7 +92,7 @@ const Chat = () => {
     <div className="w-full md:w-2/3 lg:w-1/2 mx-auto border border-gray-700 rounded-2xl mt-6 h-[75vh] flex flex-col bg-gray-900 shadow-xl">
       {/* Header */}
       <h1 className="p-4 border-b border-gray-700 text-lg font-semibold text-white bg-gray-800 rounded-t-2xl">
-        Chat with {user.firstName|| "User"}
+        Chat
       </h1>
 
       {/* Messages */}

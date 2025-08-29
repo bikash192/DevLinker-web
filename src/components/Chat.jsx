@@ -87,31 +87,11 @@ const Chat = () => {
   }, [userId, targetUserId, user?.firstName, user?.lastName, user?.photoUrl]);
 
   const sendMessage = () => {
-    const cleanedMessage = newMessage.trim();
-
-  // Basic validation
-  if (!cleanedMessage) {
-    alert("Message cannot be empty!");
-    return;
-  }
-
- 
-  if (cleanedMessage.length < 2) {
-    alert("Message is too short!");
-    return;
-  }
-
- 
-  const validPattern = /[a-zA-Z0-9]/; 
-  if (!validPattern.test(cleanedMessage)) {
-    alert("Message must contain letters or numbers!");
-    return;
-  }
-
+    if (!newMessage.trim()) return;
     if (socketRef.current) {
       socketRef.current.emit("sendMessage", {
         firstName: user.firstName,
-        lastName: user.lastName, // ✅ FIX 4: include lastName for consistency
+        lastName: user.lastName, 
         userId,
         targetUserId,
         text: newMessage,

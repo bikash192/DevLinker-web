@@ -78,7 +78,7 @@ const Premium = () => {
           </h2>
           <p className="text-gray-500 text-center mt-2">Best for Starters</p>
           <div className="mt-6 text-center">
-            <span className="text-4xl font-extrabold text-indigo-600">$19</span>
+            <span className="text-4xl font-extrabold text-indigo-600">₹99</span>
             <span className="text-gray-500"> / 3 months</span>
           </div>
           <ul className="mt-6 space-y-3 text-gray-700">
@@ -114,7 +114,7 @@ const Premium = () => {
           </h2>
           <p className="text-gray-600 text-center mt-2">For Professionals</p>
           <div className="mt-6 text-center">
-            <span className="text-4xl font-extrabold text-yellow-600">$39</span>
+            <span className="text-4xl font-extrabold text-yellow-600">₹199</span>
             <span className="text-gray-600"> / 6 months</span>
           </div>
           <ul className="mt-6 space-y-3 text-gray-700">
